@@ -155,6 +155,7 @@ class CalendarHandler {
       usageStatistics: false,
       theme: this._calendarTheme(),
       defaultView: 'week',
+      week.startDayOfWeek: 1,
       isReadOnly,
       template: {
         time(event) {
