@@ -147,10 +147,10 @@ class CalendarHandler {
     return {
       week: {
         taskView: false,
-        dayNames: [t('Sun'), t('Mon'), t('Tue'), t('Wed'), t('Thu'), t('Fri'), t('Sat')],
+        dayNames: [t('Mon'), t('Tue'), t('Wed'), t('Thu'), t('Fri'), t('Sat'),t('Sun')],
       },
       month: {
-        dayNames: [t('Sun'), t('Mon'), t('Tue'), t('Wed'), t('Thu'), t('Fri'), t('Sat')],
+        dayNames: [t('Mon'), t('Tue'), t('Wed'), t('Thu'), t('Fri'), t('Sat'),t('Sun')],
       },
       usageStatistics: false,
       theme: this._calendarTheme(),
