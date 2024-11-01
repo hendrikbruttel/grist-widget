@@ -476,6 +476,14 @@ function getGristOptions() {
       type: "Choice,ChoiceList",
       description: t("event category and style"),
       allowMultiple: false
+    },
+    {
+      name: "startDayOfWeek",
+      title: t("startDayOfWeek"),
+      optional: true,
+      type: "number",
+      description: t("start day of week, 0=Sun, 1=Mon, ..."),
+      allowMultiple: false
     }
   ];
 }
