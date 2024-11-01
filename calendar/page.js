@@ -148,6 +148,7 @@ class CalendarHandler {
       week: {
         taskView: false,
         dayNames: [t('Mon'), t('Tue'), t('Wed'), t('Thu'), t('Fri'), t('Sat'),t('Sun')],
+        startDayOfWeek: 1
       },
       month: {
         dayNames: [t('Mon'), t('Tue'), t('Wed'), t('Thu'), t('Fri'), t('Sat'),t('Sun')],
@@ -194,7 +195,6 @@ class CalendarHandler {
           backgroundColor: this._mainColor,
           color: this._textColor,
           borderColor: this._mainColor,
-          week.startDayOfWeek: 1
         },
       ],
       useFormPopup: !isReadOnly,
