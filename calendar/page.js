@@ -155,7 +155,6 @@ class CalendarHandler {
       usageStatistics: false,
       theme: this._calendarTheme(),
       defaultView: 'week',
-      week.startDayOfWeek: 1,
       isReadOnly,
       template: {
         time(event) {
@@ -195,6 +194,7 @@ class CalendarHandler {
           backgroundColor: this._mainColor,
           color: this._textColor,
           borderColor: this._mainColor,
+          week.startDayOfWeek: 1
         },
       ],
       useFormPopup: !isReadOnly,
