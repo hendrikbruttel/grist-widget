@@ -70,20 +70,23 @@ describe('calendar', function () {
       await grist.openDoc(docId);
       await grist.toggleSidePanel('right', 'open');
       await grist.addNewSection(/Custom/, /Table1/);
-      await grist.clickWidgetPane();
+      await grist.clickWidgetGallery();
       await grist.selectCustomWidget(/Calendar/);
       await grist.setCustomWidgetAccess('full');
       await grist.setCustomWidgetMapping('startDate', /From/);
       await grist.setCustomWidgetMapping('endDate', /To/);
       await grist.setCustomWidgetMapping('title', /Label/);
       await grist.setCustomWidgetMapping('isAllDay', /IsFullDay/);
-      //sign in to grist
-      await grist.login();
   });
 
   it('should create new event when new row is added', async function () {
+    //sign in to grist
+    await grist.login();
+
+    await grist.waitForFrame();
+
     await executeAndWaitForCalendar(async () => {
-      await grist.sendActionsAndWaitForServer([['AddRecord', 'Table1', -1, {
+      await grist.sendActions([['AddRecord', 'Table1', -1, {
         From: new Date('2023-08-03 13:00'),
         To: new Date('2023-08-03 14:00'),
         Label: "New Event",
@@ -101,7 +104,7 @@ describe('calendar', function () {
 
   it('should create new all day event when new row is added', async function () {
     await executeAndWaitForCalendar(async () => {
-      await grist.sendActionsAndWaitForServer([['AddRecord', 'Table1', -1, {
+      await grist.sendActions([['AddRecord', 'Table1', -1, {
         From: new Date('2023-08-04 13:00'),
         To: new Date('2023-08-04 14:00'),
         Label: "All Day Event",
@@ -120,7 +123,7 @@ describe('calendar', function () {
 
   it('should update event when table data is changed', async function () {
     await executeAndWaitForCalendar(async () => {
-      await grist.sendActionsAndWaitForServer([['UpdateRecord', 'Table1', 1, {
+      await grist.sendActions([['UpdateRecord', 'Table1', 1, {
         From: new Date('2023-08-03 13:00'),
         To: new Date('2023-08-03 15:00'),
         Label: "New Event",
@@ -138,7 +141,7 @@ describe('calendar', function () {
 
   it('should remove event when row is deleted', async function () {
     await executeAndWaitForCalendar(async () => {
-      await grist.sendActionsAndWaitForServer([['RemoveRecord', 'Table1', 1]]);
+      await grist.sendActions([['RemoveRecord', 'Table1', 1]]);
     });
     const mappedObject = await getCalendarEvent(1)
     assert.isNull(mappedObject);
@@ -269,7 +272,7 @@ describe('calendar', function () {
     assert.equal(await eventsCount(), 1);
 
     // Now configure bi-directional mapping.
-    await grist.sendActionsAndWaitForServer([
+    await grist.sendActions([
       ['UpdateRecord', '_grist_Views_section', 1, {linkSrcSectionRef: 4}],
       ['UpdateRecord', '_grist_Views_section', 4, {linkSrcSectionRef: 1}],
     ]);
@@ -357,13 +360,12 @@ describe('calendar', function () {
         assert.equal(buttontext, text)
       });
     }
-    try {
-      await switchLanguage('Polski');
-      await assertTodayButtonText('dzisiaj');
-    } finally {
-      await switchLanguage('English');
-      await assertTodayButtonText('today');
-    }
+    await switchLanguage('Polski');
+    await grist.waitForFrame();
+    await assertTodayButtonText('dzisiaj');
+    await switchLanguage('English');
+    await grist.waitForFrame();
+    await assertTodayButtonText('today');
   });
 
   // TODO: test adding new events and moving existing one on the calendar.

@@ -14,8 +14,8 @@ describe('chart', function () {
     // Add a custom chart widget
     await grist.toggleSidePanel('right', 'open');
     await grist.addNewSection(/Custom/, /Table1/, {dismissTips: true});
-    await grist.clickWidgetPane();
-    await grist.selectCustomWidget('Advanced Charts');
+    await grist.clickWidgetGallery();
+    await grist.selectCustomWidget('Advanced charts');
     await grist.setCustomWidgetAccess('full');  // required
 
     // Wait for the widget to load
@@ -44,12 +44,15 @@ describe('chart', function () {
       await chooseColumnFromFieldDropdown(/Values/, /num/);
       await chooseColumnFromFieldDropdown(/Labels/, /choice list/);
 
-      assert.equal(
-        await driver.find('.plotly_editor_plot').getText(),
+      const result =
         // Percentages inside the pie chart
         '55.6%\n44.4%\n' +
         // Legend
-        'choice B\nchoice A',
+        'choice B\nchoice A';
+
+      assert.equal(
+        await driver.findContentWait('.plotly_editor_plot', result, 2000).getText(),
+        result
       );
     });
   });
